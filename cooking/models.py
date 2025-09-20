@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.urls import reverse
 
 # База данных
 
@@ -11,6 +11,10 @@ class Category(models.Model):
     
     def __str__(self):
         return self.title
+    
+    def get_absolute_url(self):
+        return reverse('category_list', kwargs={'pk':self.pk})
+    
     
     class Meta:
         verbose_name = "Категория"
@@ -25,12 +29,14 @@ class Post(models.Model):
     photo = models.ImageField(upload_to="photos/", blank=True, null=True, verbose_name="Изображение")
     watched = models.IntegerField(default=0, verbose_name="Просмоторы")
     is_published = models.BooleanField(default=True, verbose_name="Публикация")
-    category = models.ForeignKey(Category, on_delete=models.CASCADE, verbose_name="Категория")
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='posts', verbose_name="Категория")
     
     
     def __str__(self):
         return self.title
         
+    def get_absolute_url(self):
+        return reverse('post_detail', kwargs={'pk':self.pk})
     
     class Meta:
         verbose_name = "Пост"

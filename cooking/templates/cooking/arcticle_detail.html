@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+
+{% block main %}
+    <!-- Main body-->
+        <main>
+            <div class="d-flex justify-content-between">
+                <div class="card col-8">
+                    <div class="card-header d-flex justify-content-between">{{ post.category }}
+                    <div>
+                        <a href="#!" class="btn btn-dark">Удалить</a>
+                        <a href="#!" class="btn btn-dark">Изменить</a>
+                        <a href="#!" class="btn btn-dark">Назад</a>
+                    </div>
+                </div>
+                    {% if post.photo %}
+                    <img src="{{ post.photo.url }}" class="card-img-top" alt="картинка"><div class="card-body">
+                    {% else %}
+                    <img src="https://frutiss.ru/image/cache/placeholder-800x800.png" alt="">   
+                    {% endif %}
+
+                    <h5 class="card-title">{{ post.title }}</h5>
+                    <p class="card-text">{{ post.content | linebreaks }}</p>
+                    <div class="card-footer d-flex justify-content-between"><p class="card-text">{{ post.created_at }}</p>
+                        <a href="/profile/1">Автор статьи: Какой то человек</a>
+                        <p class="card-text">{{ post.watched }}</p>
+                        
+                    </div>
+
+                <hr>
+
+                <!--  reviews-->
+                <form action="#!" method="post" , enctype="multipart/form-data">
+                    <input type="hidden" name="csrfmiddlewaretoken" value="dVpvJs374bq08P5ZzKsB7pSNUnoJ6PXRIDRXHc1fjvFIdKmbXrQMDMR0wYHLFtut">
+                    <textarea name="text" cols="40" rows="10" class="form-control" placeholder="Текст вашего комментария" required id="id_text"></textarea>
+                    <button class="btn btn-dark" type="submit">Добавить комментарий</button>
+                </form>
+
+                <div class="card mt-2"><h5 class="card-header">Какой то человек</h5>
+                    <div class="card-body">
+                        <p class="card-text">Текст отзыва</p>
+                    </div>
+                </div>
+            
+            </div>
+        </div>
+            
+
+            <!--  Recommendation-->
+            <div class="col-1"></div>
+            <div class="col-3">
+                {% for ext_post in  ext_posts %}
+                <div class="card mb-2" style="width: 15rem;">
+                    {% if ext_post.photo %}
+                    <img src="{{ ext_post.photo.url }}" class="card-img-top" alt="картинка"><div class="card-body">
+                    {% else %}
+                    <img src="https://frutiss.ru/image/cache/placeholder-800x800.png" alt="">   
+                    {% endif %}
+                    <div class="card-body">
+                        <h5 class="card-title">{{ ext_post.title}}</h5>
+                        <a href="{{ ext_post.get_absolute_url }}" class="btn btn-primary">Подробнее</a>
+                    </div>
+                </div>
+            
+                {% endfor %}
+            </div>
+            </div>
+        </div>
+        </main>
+       
+{% endblock main %}
